@@ -1,0 +1,39 @@
+Document Title: C7 Digital IO
+Document Author: Minh Tran
+Book: Embedded Computing and Mechatronics with the PIC32 Microcontroller 
+Author: Kevin M. Lynch, Nicholas Marchuk, Matthew L. Elwin
+================================================================================
+Vocab:
+1. TRIS(TRI-State)
+	A control register that determines whether a digital pin is an input(1) or 
+	output(0)
+
+2. PORT
+	A control register used to read the current state of the input signal
+	applied to the port IO pins. Writing to a PORTx register performs a 
+	write to the port's latch, LATx register, latching data to the port's 
+	IO pins
+
+3. LAT
+	A control register used to write data to the port IO pins. LATx Latch
+	register contains data written to either the LATx or PORTx registers. 
+	Reading the LATx Latch register reads the last value written 
+	to the corresponding PORT or Latch register.
+	
+4. CLR/SET/INV 
+	These registers provide fast atomic bit manipulation of corresponding
+	IO registers. The implied bit-wise operation occurs only to those bits
+	that are set (1) in the CLR/SET/INV register. 
+	
+	Reading CLR/SET/INV registers return undefined values. 
+	
+	Using these registers invoke hardware bit-manipulation atomic operations
+	which requires fewer instructions compared to the read-modify-write method
+	
+5. TTL buffers (12.1.2 Digital Input)
+6. Schmitt Triggers (12.1.2 Digital Input) 
+
+7.1-7.2 Overview, Details 
+
+7.2.1 Change Notification 
+7.3. Sample Code  

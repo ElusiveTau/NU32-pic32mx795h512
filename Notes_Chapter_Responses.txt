@@ -1,0 +1,33 @@
+Document Title: Chapter Responses
+Document Author: Minh Tran
+Book: Embedded Computing and Mechatronics with the PIC32 Microcontroller 
+Author: Kevin M. Lynch, Nicholas Marchuk, Matthew L. Elwin
+======================================================================================================================================
+2.4 Exercises
+1. 
+	a. 
+
+3.10 Exercises
+1.
+	(a) 0x80000020 
+	(b) 0xA0000020
+	(c) 0xBF800001
+	(d) 0x9FC00111
+	(e) 0x9D001000
+	
+2. 
+	
+	
+======================================================================================================================================
+
+Questions
+0. What does it mean to have a program added to your path?
+	0A. It means your (Windows) system 'Environment variable' includes the file path 
+		to the program so that the program can be executed on the command line by simply
+		typing the name of the program insteading of invoking the program's full path.
+		
+		We use it in this book to allow us to execute the compiler xc32-gcc on source code
+		to compile a program without having to type the full file path to the compiler. 
+	
+1. What is a virtual serial port?
+2. (From MPLAB Harmony Tutorial) What is an RTOs?

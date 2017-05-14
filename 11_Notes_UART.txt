@@ -1,0 +1,65 @@
+Document Title: C11 UART
+Document Author: Minh Tran
+Book: Embedded Computing and Mechatronics with the PIC32 Microcontroller 
+Author: Kevin M. Lynch, Nicholas Marchuk, Matthew L. Elwin
+================================================================================
+
+UART is simple, albeit slow (Up to a theoretical 20Mbps but actual data rate is 
+much slower, historically 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 2304000). 
+1 UART port allows a connection with 1 other device (aka Data Terminal Equipment/DTE)
+
+1. CONNECTIVITY
+RX/TX/GND connection in a FULL-DUPLEX connection
+RX/GND or TX/GND connection in HALF-DUPLEX connection
+ 
+(PIC32)        (DTE)
+ TX	----------- RX
+ RX ----------- TX
+	
+2. FTDI DRIVER SOFTWARE/FTDI FT231X 
+FTDI Driver Software (FTDI:USB): Serial-device emulator software on a computer
+FTDI FT231X Hardware (FTDI:FT231): Hardware module on the NU32
+	
+FTDI driver software sends data over USB to FTDI FT231X module on the NU32 which 
+converts it into signals appropriate for the NU32's UART:
+
+	[FTDI:USB] --> [FTDI:FT231 --> UART Module] 
+		
+Data sent by UART module is converted by FTDI FT231X to USB signals to send to 
+the FTDI driver software which interprets it as if it is received by one of the
+computer's UART. 
+	
+	[UART Module --> FTDI:FT231] --> [FTDI:USB --> UART Module]
+		
+3. UART PARAMETERS
+Parameters of UART Communication: 
+	(1) Baud Rate (bits sent per second): May be any value
+	(2) Data Length 
+	(3) Parity (based on the number of 1's sent inclusive of the parity bit; even or odd)
+	(4) Number of stop bits
+	
+NU32 library uses 230,400/8N1 (baud/length/parity/#stop bits
+	
+6. ASYNCHRONOUS
+UART communication is asynchronous (devices involved don't share a clock line). Baud
+rate aren't exactly the number specified by UART module compensates by synching baud rates
+on each transmission. 
+	
+7. PROTOCOL (see p.160)
+	Normally High -> Low -> Transmission (LSB first) -> High (Transmitter holds line) 
+	
+8. RX/TX FIFO QUEUES
+UART RX FIFO queue: Where data is stored after hardware shifts each bit into temporary 8-bit register
+UART TX FIFO queue: Software loads bytes into this queue. Hardware loads bytes from this queue into
+					a shift register which sends them over a wire. 
+					
+Each queue size is 8 bytes; FIFO queue overrun causes data loss. 
+
+Hardware Flow Control (~RTS/~CTS) is used to prevent data loss due to FIFO queue overrun. Both
+lines are used between devices. Each device controls a line. 
+
+	If RX FIFO is full:   hardware drives ~RTS HIGH. --> Does not allow DTE to send data
+	If RX FIFO has space: hardware drives ~RTS LOW   --> Allows DTE to send data
+	
+	If DTE drives ~CTS HIGH: PIC32 shall not transmit data
+	If DTE drives ~CTS LOW:  PIC32 may transmit data
